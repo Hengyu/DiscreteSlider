@@ -29,6 +29,7 @@ public struct DiscreteSlider<Option>: View {
     @State private var handleOffset: CGFloat = 0.0
 
     @Binding private var selectedItem: Option
+    @State private var selectedIndex: Int = 0
 
     private let track: AnySliderTrack
     private let tick: AnySliderTick?
@@ -144,17 +145,20 @@ public struct DiscreteSlider<Option>: View {
                         )
 
                 }
+                .onChange(of: geometry.size.width) { newValue in
+                    handleOffset = (newValue - handle.width) * CGFloat(selectedIndex) * step
+                }
             }
             .frame(height: sliderHeight)
 
             if let label, options.count > 2 {
                 HStack {
-                    label.makeBody(options.first!)
-                    ForEach(1 ..< options.count - 1, id: \.self) { element in
-                        label.makeBody(options[element])
-                            .frame(maxWidth: .infinity)
+                    ForEach(0 ..< options.count, id: \.self) {
+                        label.makeBody(options[$0])
+                        if $0 != options.count - 1 {
+                            Spacer(minLength: 0)
+                        }
                     }
-                    label.makeBody(options.last!)
                 }
             }
         }
@@ -167,6 +171,7 @@ public struct DiscreteSlider<Option>: View {
                 .onTapGesture {
                     let lineWidth = width - handle.width
                     selectedItem = options[element]
+                    selectedIndex = element
                     withAnimation { handleOffset = lineWidth * CGFloat(element) * step }
                 }
         }
@@ -179,6 +184,7 @@ public struct DiscreteSlider<Option>: View {
         if step != 0.0 {
             let page = round(percentage / step)
             selectedItem = options[Int(page)]
+            selectedIndex = Int(page)
         }
 
         handleOffset = lineWidth * percentage
@@ -187,6 +193,7 @@ public struct DiscreteSlider<Option>: View {
     private func dragEnded(on location: CGFloat, width: CGFloat) {
         if step == 0.0, let item = options.first {
             selectedItem = item
+            selectedIndex = 0
 
             return withAnimation {
                 handleOffset = 0.0
@@ -199,6 +206,7 @@ public struct DiscreteSlider<Option>: View {
         let page = round(percentage / step)
 
         selectedItem = options[Int(page)]
+        selectedIndex = Int(page)
 
         withAnimation { handleOffset = lineWidth * page * self.step }
     }

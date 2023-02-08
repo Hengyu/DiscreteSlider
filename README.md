@@ -1,10 +1,7 @@
 # DiscreteSlider
 
-![](https://img.shields.io/badge/platform-iOS-lightgrey)
-![](https://img.shields.io/badge/platform-macCatalyst-orange)
-![](https://img.shields.io/badge/platform-macOS-orange)
-![](https://img.shields.io/badge/iOS-13.0%2B-green)
-![](https://img.shields.io/badge/macCatalyst-13.0%2B-green)
+![](https://img.shields.io/badge/iOS-14.0%2B-green)
+![](https://img.shields.io/badge/macCatalyst-14.0%2B-green)
 ![](https://img.shields.io/badge/macOS-11.0%2B-green)
 ![](https://img.shields.io/badge/Swift-5-orange?logo=Swift&logoColor=white)
 ![](https://img.shields.io/github/last-commit/hengyu/DiscreteSlider)
@@ -24,7 +21,7 @@
 ## Requirements
 
 - SwiftUI
-- iOS 13.0+, macCatalyst 13.0+, macOS 11.0+
+- iOS 14.0+, macCatalyst 14.0+, macOS 11.0+
 
 ## Installation
 
