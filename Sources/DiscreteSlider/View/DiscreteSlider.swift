@@ -24,12 +24,14 @@
 
 import SwiftUI
 
-public struct DiscreteSlider<Option>: View {
+public struct DiscreteSlider<Option: Equatable>: View {
 
     @State private var handleOffset: CGFloat = 0.0
 
     @Binding private var selectedItem: Option
-    @State private var selectedIndex: Int = 0
+    private var selectedIndex: Int {
+        options.firstIndex(of: selectedItem) ?? 0
+    }
 
     private let track: AnySliderTrack
     private let tick: AnySliderTick?
@@ -148,6 +150,9 @@ public struct DiscreteSlider<Option>: View {
                 .onChange(of: geometry.size.width) { newValue in
                     handleOffset = (newValue - handle.width) * CGFloat(selectedIndex) * step
                 }
+                .onAppear {
+                    handleOffset = (geometry.size.width - handle.width) * CGFloat(selectedIndex) * step
+                }
             }
             .frame(height: sliderHeight)
 
@@ -171,7 +176,6 @@ public struct DiscreteSlider<Option>: View {
                 .onTapGesture {
                     let lineWidth = width - handle.width
                     selectedItem = options[element]
-                    selectedIndex = element
                     withAnimation(.easeInOut(duration: 0.35)) { handleOffset = lineWidth * CGFloat(element) * step }
                 }
         }
@@ -184,16 +188,14 @@ public struct DiscreteSlider<Option>: View {
         if step != 0.0 {
             let page = round(percentage / step)
             selectedItem = options[Int(page)]
-            selectedIndex = Int(page)
         }
 
-        handleOffset = lineWidth * percentage
+        handleOffset = max(min(lineWidth, location), 0)
     }
 
     private func dragEnded(on location: CGFloat, width: CGFloat) {
         if step == 0.0, let item = options.first {
             selectedItem = item
-            selectedIndex = 0
 
             return withAnimation(.easeInOut(duration: 0.35)) {
                 handleOffset = 0.0
@@ -206,7 +208,6 @@ public struct DiscreteSlider<Option>: View {
         let page = round(percentage / step)
 
         selectedItem = options[Int(page)]
-        selectedIndex = Int(page)
 
         withAnimation(.easeInOut(duration: 0.35)) { handleOffset = lineWidth * page * self.step }
     }
