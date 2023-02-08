@@ -1,0 +1,23 @@
+name: Main
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  main:
+    runs-on: macos-12
+    steps:
+      - uses: swift-actions/setup-swift@v1.21.0
+        with:
+          swift-version: "5.7.0"
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v3
+        with:
+          path: .build
+          key: ${{ runner.os }}-DiscreteSlider-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: ${{ runner.os }}-DiscreteSlider
+      - name: Build
+        run: swift build
