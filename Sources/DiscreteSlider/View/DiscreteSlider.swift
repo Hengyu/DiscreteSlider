@@ -172,7 +172,7 @@ public struct DiscreteSlider<Option>: View {
                     let lineWidth = width - handle.width
                     selectedItem = options[element]
                     selectedIndex = element
-                    withAnimation { handleOffset = lineWidth * CGFloat(element) * step }
+                    withAnimation(.easeInOut(duration: 0.35)) { handleOffset = lineWidth * CGFloat(element) * step }
                 }
         }
     }
@@ -195,7 +195,7 @@ public struct DiscreteSlider<Option>: View {
             selectedItem = item
             selectedIndex = 0
 
-            return withAnimation {
+            return withAnimation(.easeInOut(duration: 0.35)) {
                 handleOffset = 0.0
             }
         }
@@ -208,6 +208,6 @@ public struct DiscreteSlider<Option>: View {
         selectedItem = options[Int(page)]
         selectedIndex = Int(page)
 
-        withAnimation { handleOffset = lineWidth * page * self.step }
+        withAnimation(.easeInOut(duration: 0.35)) { handleOffset = lineWidth * page * self.step }
     }
 }
