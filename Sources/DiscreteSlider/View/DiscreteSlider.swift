@@ -26,7 +26,7 @@ import SwiftUI
 
 public struct DiscreteSlider<Option: Equatable>: View {
 
-    @State private var handleOffset: CGFloat = 0.0
+    @State private var handleOffset: CGFloat = 0
 
     @Binding private var selectedItem: Option
     private var selectedIndex: Int {
@@ -40,7 +40,7 @@ public struct DiscreteSlider<Option: Equatable>: View {
 
     private let options: [Option]
 
-    private var step: CGFloat = 0.0
+    private var step: CGFloat = 0
 
     private var sliderHeight: CGFloat {
         max(handle.height, track.height, tick?.height ?? 0)
@@ -130,7 +130,7 @@ public struct DiscreteSlider<Option: Equatable>: View {
                     track.makeFillTrack()
                         .frame(width: handleOffset + handle.width / 2)
 
-                    if let tick, step != 0.0 {
+                    if let tick, step != 0 {
                         create(tick: tick, with: geometry.size.width)
                     }
 
@@ -181,30 +181,29 @@ public struct DiscreteSlider<Option: Equatable>: View {
         }
     }
 
-    private func dragChanged(on location: CGFloat, width: CGFloat) {
+    private func dragChanged(on location: CGFloat, width: CGFloat, updatesSelection: Bool = false) {
         let lineWidth = width - handle.width
-        let percentage = max(0, min(location / lineWidth, 1.0))
+        handleOffset = max(min(lineWidth, location), 0)
 
-        if step != 0.0 {
+        if step != 0, updatesSelection {
+            let percentage = max(0, min(location / lineWidth, 1))
             let page = round(percentage / step)
             selectedItem = options[Int(page)]
         }
-
-        handleOffset = max(min(lineWidth, location), 0)
     }
 
     private func dragEnded(on location: CGFloat, width: CGFloat) {
-        if step == 0.0, let item = options.first {
+        if step == 0, let item = options.first {
             selectedItem = item
 
             return withAnimation(.easeInOut(duration: 0.35)) {
-                handleOffset = 0.0
+                handleOffset = 0
             }
         }
 
         let lineWidth = width - handle.width
 
-        let percentage = max(0, min(location / lineWidth, 1.0))
+        let percentage = max(0, min(location / lineWidth, 1))
         let page = round(percentage / step)
 
         selectedItem = options[Int(page)]
