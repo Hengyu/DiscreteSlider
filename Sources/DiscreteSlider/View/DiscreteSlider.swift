@@ -27,7 +27,7 @@ import SwiftUI
 public struct DiscreteSlider<Option: Equatable>: View {
 
     @State private var handleOffset: CGFloat = 0
-
+    @State private var size: CGSize = .zero
     @Binding private var selectedItem: Option
     private var selectedIndex: Int {
         options.firstIndex(of: selectedItem) ?? 0
@@ -122,47 +122,56 @@ public struct DiscreteSlider<Option: Equatable>: View {
 
     public var body: some View {
         VStack(alignment: .center, spacing: 4) {
-            GeometryReader { geometry in
-                ZStack(alignment: .init(horizontal: .leading, vertical: .center)) {
-                    track.makeTrack()
-                        .frame(width: geometry.size.width)
+            makeSlider()
+            makeLabel()
+        }
+        .onChange(of: size) { newValue in
+            handleOffset = (newValue.width - handle.width) * CGFloat(selectedIndex) * step
+        }
+    }
 
-                    track.makeFillTrack()
-                        .frame(width: handleOffset + handle.width / 2)
+    private func makeSlider() -> some View {
+        GeometryReader { geometry in
+            size = geometry.size
+            return ZStack(alignment: .init(horizontal: .leading, vertical: .center)) {
+                track.makeTrack()
+                    .frame(width: geometry.size.width)
 
-                    if let tick, step != 0 {
-                        create(tick: tick, with: geometry.size.width)
-                    }
+                track.makeFillTrack()
+                    .frame(width: handleOffset + handle.width / 2)
 
-                    handle.makeBody()
-                        .offset(x: handleOffset)
-                        .gesture(
-                            DragGesture()
-                                .onChanged { value in
-                                    dragChanged(on: value.location.x, width: geometry.size.width)
-                                }
-                                .onEnded { value in
-                                    dragEnded(on: value.location.x, width: geometry.size.width)
-                                }
-                        )
-
+                if let tick, step != 0 {
+                    create(tick: tick, with: geometry.size.width)
                 }
-                .onChange(of: geometry.size.width) { newValue in
-                    handleOffset = (newValue - handle.width) * CGFloat(selectedIndex) * step
-                }
-                .onAppear {
-                    handleOffset = (geometry.size.width - handle.width) * CGFloat(selectedIndex) * step
-                }
+
+                handle.makeBody()
+                    .offset(x: handleOffset)
+                    .gesture(
+                        DragGesture()
+                            .onChanged { value in
+                                dragChanged(on: value.location.x, width: geometry.size.width)
+                            }
+                            .onEnded { value in
+                                dragEnded(on: value.location.x, width: geometry.size.width)
+                            }
+                    )
+
             }
-            .frame(height: sliderHeight)
+            .onAppear {
+                handleOffset = (geometry.size.width - handle.width) * CGFloat(selectedIndex) * step
+            }
+        }
+        .frame(height: sliderHeight)
+    }
 
-            if let label, options.count > 2 {
-                HStack {
-                    ForEach(0 ..< options.count, id: \.self) {
-                        label.makeBody(options[$0])
-                        if $0 != options.count - 1 {
-                            Spacer(minLength: 0)
-                        }
+    @ViewBuilder
+    private func makeLabel() -> some View {
+        if let label, options.count > 2 {
+            HStack {
+                ForEach(0 ..< options.count, id: \.self) {
+                    label.makeBody(options[$0])
+                    if $0 != options.count - 1 {
+                        Spacer(minLength: 0)
                     }
                 }
             }
