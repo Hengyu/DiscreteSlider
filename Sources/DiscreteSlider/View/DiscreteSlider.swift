@@ -102,23 +102,28 @@ public struct DiscreteSlider<Option: Equatable>: View {
     }
 
     public var body: some View {
-        VStack(alignment: .center, spacing: 4) {
-            GeometryReader { geometry in
-                SliderControl(
-                    options: options,
-                    track: track,
-                    tick: tick,
-                    handle: handle,
-                    tickDisplayGuide: tickDisplayGuide,
-                    selectedItem: $selectedItem
-                )
-                .environment(\.width, geometry.size.width)
-            }
-            .frame(height: sliderHeight)
-
-            if let label {
+        if let label {
+            VStack(alignment: .center, spacing: 4) {
+                contol
                 SliderLabels(options: options, label: label)
             }
+        } else {
+            contol
         }
+    }
+
+    @ViewBuilder private var contol: some View {
+        GeometryReader { geometry in
+            SliderControl(
+                options: options,
+                track: track,
+                tick: tick,
+                handle: handle,
+                tickDisplayGuide: tickDisplayGuide,
+                selectedItem: $selectedItem
+            )
+            .environment(\.width, geometry.size.width)
+        }
+        .frame(height: sliderHeight)
     }
 }

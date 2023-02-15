@@ -33,6 +33,12 @@ public struct DefaultSliderLabel<T>: SliderLabel {
         if let text = option as? String {
             Text(text)
                 .font(.caption)
+        } else if let intValue = option as? Int {
+            Text("\(intValue)")
+                .font(.caption)
+        } else if let floatValue = option as? Float {
+            Text("\(floatValue)")
+                .font(.caption)
         } else {
             EmptyView()
         }
