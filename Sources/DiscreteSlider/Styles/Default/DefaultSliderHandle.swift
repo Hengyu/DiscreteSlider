@@ -26,8 +26,13 @@ import SwiftUI
 
 public struct DefaultSliderHandle: SliderHandle {
 
-    public var width: CGFloat = 16.0
-    public var height: CGFloat = 16.0
+    public let width: CGFloat
+    public let height: CGFloat
+
+    public init(width: CGFloat = 16.0, height: CGFloat = 16.0) {
+        self.width = width
+        self.height = height
+    }
 
     public func makeBody() -> some View {
         Circle()

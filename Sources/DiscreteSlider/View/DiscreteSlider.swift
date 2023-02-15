@@ -24,6 +24,11 @@
 
 import SwiftUI
 
+public enum TickDisplayGuide: Codable, Equatable, Sendable {
+    case alwaysPresent
+    case ondemandPresent(devideBy: Int = 2)
+}
+
 public struct DiscreteSlider<Option: Equatable>: View {
 
     @State private var handleOffset: CGFloat = 0
@@ -37,6 +42,7 @@ public struct DiscreteSlider<Option: Equatable>: View {
     private let tick: AnySliderTick?
     private let handle: AnySliderHandle
     private let label: AnySliderLabel<Option>?
+    private let tickDisplayGuide: TickDisplayGuide
 
     private let options: [Option]
 
@@ -63,12 +69,14 @@ public struct DiscreteSlider<Option: Equatable>: View {
         tick: Tick,
         handle: Handle,
         label: Label,
+        tickDisplayGuide: TickDisplayGuide = .alwaysPresent,
         selectedItem: Binding<Option>
     ) where Label.Option == Option {
         self.track = .init(track: track)
         self.tick = .init(tick: tick)
         self.handle = .init(handle: handle)
         self.label = AnySliderLabel<Option>(label: label)
+        self.tickDisplayGuide = tickDisplayGuide
         self.options = options
         self._selectedItem = selectedItem
 
@@ -85,17 +93,20 @@ public struct DiscreteSlider<Option: Equatable>: View {
     ///   - track: Customized slider's track.
     ///   - handle: Customized slider's handle.
     ///   - selectedItem: Binding to the property that will store the selected item.
-    public init<Track: SliderTrack, Handle: SliderHandle>(
+    public init<Track: SliderTrack, Tick: SliderTick, Handle: SliderHandle>(
         options: [Option],
-        track: Track,
-        handle: Handle,
+        track: Track = DefaultSliderTrack(),
+        tick: Tick = DefaultSliderTick(),
+        handle: Handle = DefaultSliderHandle(),
+        tickDisplayGuide: TickDisplayGuide = .alwaysPresent,
         selectedItem: Binding<Option>
     ) {
         self.track  = .init(track: track)
         self.handle = .init(handle: handle)
-        self.tick = nil
+        self.tick = .init(tick: tick)
         self.label = nil
         self.options = options
+        self.tickDisplayGuide = tickDisplayGuide
         self._selectedItem = selectedItem
 
         if options.count > 1 {
@@ -116,6 +127,7 @@ public struct DiscreteSlider<Option: Equatable>: View {
             tick: DefaultSliderTick(),
             handle: DefaultSliderHandle(),
             label: DefaultSliderLabel<Option>(),
+            tickDisplayGuide: .alwaysPresent,
             selectedItem: selectedItem
         )
     }
@@ -187,6 +199,7 @@ public struct DiscreteSlider<Option: Equatable>: View {
                     selectedItem = options[element]
                     withAnimation(.easeInOut(duration: 0.35)) { handleOffset = lineWidth * CGFloat(element) * step }
                 }
+                .hide(tickDisplayGuide, index: element)
         }
     }
 
@@ -218,5 +231,25 @@ public struct DiscreteSlider<Option: Equatable>: View {
         selectedItem = options[Int(page)]
 
         withAnimation(.easeInOut(duration: 0.35)) { handleOffset = lineWidth * page * self.step }
+    }
+}
+
+extension View {
+
+    @ViewBuilder fileprivate func hide(_ guide: TickDisplayGuide, index: Int) -> some View {
+        switch guide {
+        case .alwaysPresent:
+            self
+        case .ondemandPresent(let devideBy):
+            hide(index % devideBy != 0)
+        }
+    }
+
+    @ViewBuilder fileprivate func hide(_ isHidden: Bool) -> some View {
+        if isHidden {
+            hidden()
+        } else {
+            self
+        }
     }
 }
