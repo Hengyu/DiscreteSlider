@@ -135,7 +135,7 @@ struct SliderControl<Option: Equatable>: View {
             tick.makeBody()
                 .offset(x: CGFloat(element) * step * (width - tick.width))
                 .onTapGesture {
-                    selectedItem = options[element]
+                    setSelectedItem(options[element], animated: false)
                 }
                 .hide(tickDisplayGuide, index: element)
         }
@@ -147,7 +147,7 @@ struct SliderControl<Option: Equatable>: View {
         if step != 0, updatesSelection {
             let percentage = max(0, min(location / lineWidth, 1))
             let page = round(percentage / step)
-            selectedItem = options[Int(page)]
+            setSelectedItem(options[Int(page)], animated: true)
         } else {
             handleOffset = max(min(lineWidth, location), 0)
         }
@@ -155,7 +155,7 @@ struct SliderControl<Option: Equatable>: View {
 
     private func dragEnded(on location: CGFloat, width: CGFloat) {
         if step == 0, let item = options.first {
-            selectedItem = item
+            setSelectedItem(item, animated: true)
             return
         }
 
@@ -164,7 +164,17 @@ struct SliderControl<Option: Equatable>: View {
         let percentage = max(0, min(location / lineWidth, 1))
         let page = round(percentage / step)
 
-        selectedItem = options[Int(page)]
+        setSelectedItem(options[Int(page)], animated: true)
+    }
+
+    private func setSelectedItem(_ item: Option, animated: Bool) {
+        if item != selectedItem {
+            selectedItem = item
+        } else {
+            // since the `selectedItem` is not changed,
+            // so we need to manually update handle offset.
+            updateHandleOffset(width: width, animated: animated)
+        }
     }
 }
 
