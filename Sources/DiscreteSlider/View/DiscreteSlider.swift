@@ -102,13 +102,9 @@ public struct DiscreteSlider<Option: Equatable>: View {
     }
 
     public var body: some View {
-        if let label {
-            VStack(alignment: .center, spacing: 4) {
-                contol
-                SliderLabels(options: options, label: label)
-            }
-        } else {
+        VStack(alignment: .center, spacing: 4) {
             contol
+            labels
         }
     }
 
@@ -125,5 +121,14 @@ public struct DiscreteSlider<Option: Equatable>: View {
             .environment(\.width, geometry.size.width)
         }
         .frame(height: sliderHeight)
+    }
+
+    @ViewBuilder private var labels: some View {
+        if let label {
+            GeometryReader { proxy in
+                SliderLabels(options: options, label: label, edgeSpacing: (tick?.width ?? 0) / 2)
+                    .environment(\.width, proxy.size.width)
+            }
+        }
     }
 }

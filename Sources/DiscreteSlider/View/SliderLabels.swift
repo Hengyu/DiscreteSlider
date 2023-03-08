@@ -26,6 +26,9 @@ import SwiftUI
 struct SliderLabels<Option: Equatable>: View {
     private let label: AnySliderLabel<Option>
     private let options: [Option]
+    private let edgeSpacing: CGFloat
+    @Environment(\.width) private var width
+    @State private var height: CGFloat = 0
 
     /// Creates label for the slider.
     ///
@@ -34,22 +37,40 @@ struct SliderLabels<Option: Equatable>: View {
     ///   - label: Customized slider's label.
     public init<Label: SliderLabel>(
         options: [Option],
-        label: Label
+        label: Label,
+        edgeSpacing: CGFloat
     ) where Label.Option == Option {
         self.label = AnySliderLabel<Option>(label: label)
         self.options = options
+        self.edgeSpacing = edgeSpacing
     }
 
     public var body: some View {
-        if options.count > 2 {
-            HStack {
-                ForEach(0 ..< options.count, id: \.self) {
-                    label.makeBody(options[$0])
-                    if $0 != options.count - 1 {
-                        Spacer(minLength: 0)
+        if options.count >= 2 {
+            ZStack {
+                Group {
+                    ForEach(0 ..< options.count, id: \.self) {
+                        label.makeBody(options[$0])
+                            .position(x: centerX(for: $0), y: height / 2)
+                    }
+                }
+
+                GeometryReader { proxy in
+                    label.makeBody(options.first!)
+                        .foregroundColor(.clear)
+                    .onAppear {
+                        height = proxy.size.height
                     }
                 }
             }
+            .fixedSize(horizontal: false, vertical: true)
+        } else if let option = options.first {
+            label.makeBody(option)
+                .frame(maxWidth: .infinity, alignment: .center)
         }
+    }
+
+    private func centerX(for index: Int) -> CGFloat {
+        (width - 2 * edgeSpacing) / CGFloat(options.count - 1) * CGFloat(index) + edgeSpacing
     }
 }
