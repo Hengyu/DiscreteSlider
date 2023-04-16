@@ -42,10 +42,12 @@ struct SliderControl<Option: Equatable>: View {
     private let handle: AnySliderHandle
     private let tickDisplayGuide: TickDisplayGuide
 
-    private var step: CGFloat = 0
+    private let step: CGFloat
     @Binding private var selectedItem: Option
     @State private var handleOffset: CGFloat = 0
+    @State private var preselectedItem: Option?
     @Environment(\.width) private var width
+    private var onItemPreselected: ((Option) -> Void)? = nil
 
     private var selectedIndex: Int {
         options.firstIndex(of: selectedItem) ?? 0
@@ -66,7 +68,8 @@ struct SliderControl<Option: Equatable>: View {
         tick: Tick? = DefaultSliderTick(),
         handle: Handle = DefaultSliderHandle(),
         tickDisplayGuide: TickDisplayGuide = .alwaysPresent,
-        selectedItem: Binding<Option>
+        selectedItem: Binding<Option>,
+        onItemPreselected: ((Option) -> Void)? = nil
     ) {
         self.track  = .init(track: track)
         self.handle = .init(handle: handle)
@@ -80,8 +83,12 @@ struct SliderControl<Option: Equatable>: View {
         self._selectedItem = selectedItem
 
         if options.count > 1 {
-            self.step = 1.0 / CGFloat(options.count - 1)
+            step = 1.0 / CGFloat(options.count - 1)
+        } else {
+            step = 0
         }
+
+        self.onItemPreselected = onItemPreselected
     }
 
     public var body: some View {
@@ -141,16 +148,20 @@ struct SliderControl<Option: Equatable>: View {
         }
     }
 
-    private func dragChanged(on location: CGFloat, width: CGFloat, updatesSelection: Bool = false) {
+    private func dragChanged(on location: CGFloat, width: CGFloat) {
         let lineWidth = width - handle.width
 
-        if step != 0, updatesSelection {
+        if step != 0 {
             let percentage = max(0, min(location / lineWidth, 1))
             let page = round(percentage / step)
-            setSelectedItem(options[Int(page)], animated: true)
-        } else {
-            handleOffset = max(min(lineWidth, location), 0)
+            let option = options[Int(page)]
+            if option != preselectedItem {
+                preselectedItem = option
+                onItemPreselected?(option)
+            }
         }
+
+        handleOffset = max(min(lineWidth, location), 0)
     }
 
     private func dragEnded(on location: CGFloat, width: CGFloat) {

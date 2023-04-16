@@ -38,6 +38,7 @@ public struct DiscreteSlider<Option: Equatable>: View {
     private let handle: AnySliderHandle
     private let label: AnySliderLabel<Option>?
     private let tickDisplayGuide: TickDisplayGuide
+    private var onItemPreselected: ((Option) -> Void)?
 
     private var sliderHeight: CGFloat {
         max(handle.height, track.height, tick?.height ?? 0)
@@ -61,7 +62,8 @@ public struct DiscreteSlider<Option: Equatable>: View {
         handle: Handle,
         label: Label,
         tickDisplayGuide: TickDisplayGuide = .alwaysPresent,
-        selectedItem: Binding<Option>
+        selectedItem: Binding<Option>,
+        onItemPreselected: ((Option) -> Void)? = nil
     ) where Label.Option == Option {
         self.track = .init(track: track)
         self.tick = .init(tick: tick)
@@ -70,6 +72,7 @@ public struct DiscreteSlider<Option: Equatable>: View {
         self.tickDisplayGuide = tickDisplayGuide
         self.options = options
         self._selectedItem = selectedItem
+        self.onItemPreselected = onItemPreselected
     }
 
     /// Creates discrete slider with given track and handle.
@@ -86,7 +89,8 @@ public struct DiscreteSlider<Option: Equatable>: View {
         tick: Tick? = DefaultSliderTick(),
         handle: Handle = DefaultSliderHandle(),
         tickDisplayGuide: TickDisplayGuide = .alwaysPresent,
-        selectedItem: Binding<Option>
+        selectedItem: Binding<Option>,
+        onItemPreselected: ((Option) -> Void)? = nil
     ) {
         self.track  = .init(track: track)
         self.handle = .init(handle: handle)
@@ -99,6 +103,7 @@ public struct DiscreteSlider<Option: Equatable>: View {
         self.options = options
         self.tickDisplayGuide = tickDisplayGuide
         self._selectedItem = selectedItem
+        self.onItemPreselected = onItemPreselected
     }
 
     public var body: some View {
@@ -116,7 +121,8 @@ public struct DiscreteSlider<Option: Equatable>: View {
                 tick: tick,
                 handle: handle,
                 tickDisplayGuide: tickDisplayGuide,
-                selectedItem: $selectedItem
+                selectedItem: $selectedItem,
+                onItemPreselected: onItemPreselected
             )
             .environment(\.width, geometry.size.width)
         }
