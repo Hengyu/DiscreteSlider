@@ -21,7 +21,7 @@
 ## Requirements
 
 - SwiftUI
-- iOS 14.0+, macCatalyst 14.0+, macOS 11.0+
+- iOS 14.0+, macCatalyst 14.0+, macOS 11.0+, visionOS 1.0+
 
 ## Installation
 
