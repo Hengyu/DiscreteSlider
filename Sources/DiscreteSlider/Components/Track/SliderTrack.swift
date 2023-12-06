@@ -48,12 +48,12 @@ extension SliderTrack {
     /// Function used to type-erase view that represents slider's track.
     /// - Returns: Type-erased track view.
     public func makeTrackErased() -> AnyView {
-        return .init(makeTrack())
+        .init(makeTrack())
     }
 
     /// Function used to type-erase view that represents slider's filled width.
     /// - Returns: Type-erased view.
     public func makeFillTrackErased() -> AnyView {
-        return .init(makeFillTrack())
+        .init(makeFillTrack())
     }
 }

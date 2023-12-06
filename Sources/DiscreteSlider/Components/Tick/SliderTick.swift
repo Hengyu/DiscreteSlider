@@ -46,6 +46,6 @@ extension SliderTick {
     /// Function used to type-erase view that represents slider's tick.
     /// - Returns: Type-erased tick view.
     public func makeBodyErased() -> AnyView {
-        return .init(makeBody())
+        .init(makeBody())
     }
 }

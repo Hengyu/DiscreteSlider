@@ -47,7 +47,7 @@ struct SliderControl<Option: Equatable>: View {
     @State private var handleOffset: CGFloat = 0
     @State private var preselectedItem: Option?
     @Environment(\.width) private var width
-    private var onItemPreselected: ((Option) -> Void)? = nil
+    private var onItemPreselected: ((Option) -> Void)?
 
     private var selectedIndex: Int {
         options.firstIndex(of: selectedItem) ?? 0

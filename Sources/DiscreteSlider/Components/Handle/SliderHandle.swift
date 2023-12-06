@@ -46,6 +46,6 @@ extension SliderHandle {
     /// Function used to type-erase view that represents slider's handle.
     /// - Returns: Type-erased handle view.
     public func makeBodyErased() -> AnyView {
-        return .init(makeBody())
+        .init(makeBody())
     }
 }

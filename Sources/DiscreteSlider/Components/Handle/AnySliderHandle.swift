@@ -39,6 +39,6 @@ public struct AnySliderHandle: SliderHandle {
     }
 
     public func makeBody() -> some View {
-        return _makeBody()
+        _makeBody()
     }
 }

@@ -38,6 +38,6 @@ extension SliderLabel {
     /// Function used to type-erase view that represents slider option's label.
     /// - Returns: Type-erased label.
     public func makeBodyErased(_ option: Option) -> AnyView {
-        return .init(makeBody(option))
+        .init(makeBody(option))
     }
 }
