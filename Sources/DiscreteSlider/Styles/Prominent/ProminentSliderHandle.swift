@@ -43,8 +43,10 @@ public struct ProminentSliderHandle: SliderHandle {
                 .frame(width: width - 4, height: height - 4)
                 #if os(macOS)
                 .foregroundColor(Color(.controlBackgroundColor))
-                #else
+                #elseif os(iOS)
                 .foregroundColor(Color(.systemBackground))
+                #else
+                .foregroundStyle(.regularMaterial)
                 #endif
         }
     }

@@ -105,6 +105,7 @@ struct SliderControl<Option: Equatable>: View {
 
             handle.makeBody()
                 .offset(x: handleOffset)
+                #if os(macOS) || os(iOS)
                 .gesture(
                     DragGesture()
                         .onChanged { value in
@@ -114,7 +115,7 @@ struct SliderControl<Option: Equatable>: View {
                             dragEnded(on: value.location.x, width: width)
                         }
                 )
-
+                #endif
         }
         .onAppear {
             updateHandleOffset(width: width, animated: false)
