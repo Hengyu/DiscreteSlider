@@ -53,6 +53,7 @@ public struct DiscreteSlider<Option: Equatable>: View {
     ///   - options: Options that is used as a data source for the slider.
     ///   - track: Customized slider's track.
     ///   - tick: Customized slider's tick.
+    ///   - animated: Enable animation of the slider.
     ///   - handle: Customized slider's handle.
     ///   - label: Customized slider's label.
     ///   - selectedItem: Binding to the property that will store the selected item.
@@ -85,6 +86,7 @@ public struct DiscreteSlider<Option: Equatable>: View {
     ///   - options: Options that is used as a data source for the slider.
     ///   - track: Customized slider's track.
     ///   - handle: Customized slider's handle.
+    ///   - animated: Enable animation of the slider.
     ///   - selectedItem: Binding to the property that will store the selected item.
     public init<Track: SliderTrack, Tick: SliderTick, Handle: SliderHandle>(
         options: [Option],
