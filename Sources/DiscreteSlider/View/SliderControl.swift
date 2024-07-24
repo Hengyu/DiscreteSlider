@@ -170,7 +170,7 @@ struct SliderControl<Option: Equatable>: View {
 
     private func dragEnded(on location: CGFloat, width: CGFloat) {
         if step == 0, let item = options.first {
-            setSelectedItem(item, animated: true)
+            setSelectedItem(item, animated: animated)
             return
         }
 
@@ -179,7 +179,7 @@ struct SliderControl<Option: Equatable>: View {
         let percentage = max(0, min(location / lineWidth, 1))
         let page = round(percentage / step)
 
-        setSelectedItem(options[Int(page)], animated: true)
+        setSelectedItem(options[Int(page)], animated: animated)
     }
 
     private func setSelectedItem(_ item: Option, animated: Bool) {
