@@ -41,6 +41,7 @@ struct SliderControl<Option: Equatable>: View {
     private let tick: AnySliderTick?
     private let handle: AnySliderHandle
     private let tickDisplayGuide: TickDisplayGuide
+    private let animated: Bool
 
     private let step: CGFloat
     @Binding private var selectedItem: Option
@@ -68,6 +69,7 @@ struct SliderControl<Option: Equatable>: View {
         tick: Tick? = DefaultSliderTick(),
         handle: Handle = DefaultSliderHandle(),
         tickDisplayGuide: TickDisplayGuide = .alwaysPresent,
+        animated: Bool = true,
         selectedItem: Binding<Option>,
         onItemPreselected: ((Option) -> Void)? = nil
     ) {
@@ -80,6 +82,7 @@ struct SliderControl<Option: Equatable>: View {
         }
         self.options = options
         self.tickDisplayGuide = tickDisplayGuide
+        self.animated = animated
         self._selectedItem = selectedItem
 
         if options.count > 1 {
@@ -121,7 +124,7 @@ struct SliderControl<Option: Equatable>: View {
             updateHandleOffset(width: width, animated: false)
         }
         .onChange(of: selectedItem) { _ in
-            updateHandleOffset(width: width, animated: true)
+            updateHandleOffset(width: width, animated: animated)
         }
         .onChange(of: width) { newValue in
             updateHandleOffset(width: newValue, animated: false)
