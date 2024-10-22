@@ -28,6 +28,8 @@ public struct ProminentSliderHandle: SliderHandle {
     public let width: CGFloat
     public let height: CGFloat
 
+    @Environment(\.colorScheme) private var colorScheme
+
     public init(width: CGFloat = 24, height: CGFloat = 24) {
         self.width = width
         self.height = height
@@ -41,10 +43,8 @@ public struct ProminentSliderHandle: SliderHandle {
 
             Circle()
                 .frame(width: width - 4, height: height - 4)
-                #if os(macOS)
-                .foregroundColor(Color(.controlBackgroundColor))
-                #elseif os(iOS)
-                .foregroundColor(Color(.systemBackground))
+                #if os(macOS) || os(iOS)
+                .foregroundColor(colorScheme == .light ? .white : .black)
                 #else
                 .foregroundStyle(.regularMaterial)
                 #endif
