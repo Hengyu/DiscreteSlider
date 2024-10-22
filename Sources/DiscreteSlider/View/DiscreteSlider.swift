@@ -38,6 +38,7 @@ public struct DiscreteSlider<Option: Equatable>: View {
     private let handle: AnySliderHandle
     private let label: AnySliderLabel<Option>?
     private let tickDisplayGuide: TickDisplayGuide
+    private let animated: Bool
     private var onItemPreselected: ((Option) -> Void)?
 
     private var sliderHeight: CGFloat {
@@ -52,6 +53,7 @@ public struct DiscreteSlider<Option: Equatable>: View {
     ///   - options: Options that is used as a data source for the slider.
     ///   - track: Customized slider's track.
     ///   - tick: Customized slider's tick.
+    ///   - animated: Enable animation of the slider.
     ///   - handle: Customized slider's handle.
     ///   - label: Customized slider's label.
     ///   - selectedItem: Binding to the property that will store the selected item.
@@ -62,6 +64,7 @@ public struct DiscreteSlider<Option: Equatable>: View {
         handle: Handle,
         label: Label,
         tickDisplayGuide: TickDisplayGuide = .alwaysPresent,
+        animated: Bool = true,
         selectedItem: Binding<Option>,
         onItemPreselected: ((Option) -> Void)? = nil
     ) where Label.Option == Option {
@@ -70,6 +73,7 @@ public struct DiscreteSlider<Option: Equatable>: View {
         self.handle = .init(handle: handle)
         self.label = AnySliderLabel<Option>(label: label)
         self.tickDisplayGuide = tickDisplayGuide
+        self.animated = animated
         self.options = options
         self._selectedItem = selectedItem
         self.onItemPreselected = onItemPreselected
@@ -82,6 +86,7 @@ public struct DiscreteSlider<Option: Equatable>: View {
     ///   - options: Options that is used as a data source for the slider.
     ///   - track: Customized slider's track.
     ///   - handle: Customized slider's handle.
+    ///   - animated: Enable animation of the slider.
     ///   - selectedItem: Binding to the property that will store the selected item.
     public init<Track: SliderTrack, Tick: SliderTick, Handle: SliderHandle>(
         options: [Option],
@@ -89,6 +94,7 @@ public struct DiscreteSlider<Option: Equatable>: View {
         tick: Tick? = DefaultSliderTick(),
         handle: Handle = DefaultSliderHandle(),
         tickDisplayGuide: TickDisplayGuide = .alwaysPresent,
+        animated: Bool = true,
         selectedItem: Binding<Option>,
         onItemPreselected: ((Option) -> Void)? = nil
     ) {
@@ -102,6 +108,7 @@ public struct DiscreteSlider<Option: Equatable>: View {
         self.label = nil
         self.options = options
         self.tickDisplayGuide = tickDisplayGuide
+        self.animated = animated
         self._selectedItem = selectedItem
         self.onItemPreselected = onItemPreselected
     }
@@ -121,6 +128,7 @@ public struct DiscreteSlider<Option: Equatable>: View {
                 tick: tick,
                 handle: handle,
                 tickDisplayGuide: tickDisplayGuide,
+                animated: animated,
                 selectedItem: $selectedItem,
                 onItemPreselected: onItemPreselected
             )
