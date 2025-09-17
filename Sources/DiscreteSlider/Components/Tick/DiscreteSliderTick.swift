@@ -25,7 +25,7 @@
 import SwiftUI
 
 /// Tick marks are placed along a track and represent predetermined values that the user can move the slider to.
-public protocol SliderTick {
+public protocol DiscreteSliderTick {
     associatedtype Tick: View
 
     /// The width of the tick view.
@@ -41,7 +41,7 @@ public protocol SliderTick {
     func makeBody() -> Self.Tick
 }
 
-extension SliderTick {
+extension DiscreteSliderTick {
 
     /// Function used to type-erase view that represents slider's tick.
     /// - Returns: Type-erased tick view.

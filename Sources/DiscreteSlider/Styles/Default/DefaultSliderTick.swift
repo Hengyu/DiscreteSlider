@@ -24,7 +24,7 @@
 
 import SwiftUI
 
-public struct DefaultSliderTick: SliderTick {
+public struct DefaultSliderTick: DiscreteSliderTick {
     public let width: CGFloat
     public let height: CGFloat
 
