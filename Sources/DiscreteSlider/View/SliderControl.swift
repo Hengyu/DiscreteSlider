@@ -63,7 +63,7 @@ struct SliderControl<Option: Equatable>: View {
     ///   - tick: Customized slider's tick.
     ///   - handle: Customized slider's handle.
     ///   - selectedItem: Binding to the property that will store the selected item.
-    public init<Track: SliderTrack, Tick: SliderTick, Handle: SliderHandle>(
+    public init<Track: SliderTrack, Tick: DiscreteSliderTick, Handle: SliderHandle>(
         options: [Option],
         track: Track = DefaultSliderTrack(),
         tick: Tick? = DefaultSliderTick(),
