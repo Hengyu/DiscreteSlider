@@ -26,10 +26,8 @@ import SwiftUI
 public struct ProminentSliderLabel<T>: SliderLabelType {
     public typealias Option = T
 
-    public init() { }
-
     @ViewBuilder
-    public func makeBody(_ option: Option) -> some View {
+    public func body(_ option: Option) -> some View {
         if let text = option as? String {
             Text(text)
                 .font(.caption)

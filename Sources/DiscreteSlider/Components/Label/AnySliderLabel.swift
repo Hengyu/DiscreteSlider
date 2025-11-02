@@ -28,13 +28,13 @@ public struct AnySliderLabel<T>: SliderLabelType {
 
     public typealias Option = T
 
-    private let _makeView: (T) -> AnyView
+    private let _makeBody: (Option) -> any View
 
-    public init<Label: SliderLabelType>(label: Label) where Label.Option == T {
-        _makeView = label.makeBodyErased
+    public init<SliderLabel: SliderLabelType>(label: SliderLabel) where SliderLabel.Option == T {
+        _makeBody = label.body
     }
 
-    public func makeBody(_ option: T) -> some View {
-        _makeView(option)
+    public func body(_ option: Option) -> some View {
+        AnyView(_makeBody(option))
     }
 }

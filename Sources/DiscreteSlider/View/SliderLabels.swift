@@ -40,6 +40,7 @@ struct SliderLabels<Option: Equatable>: View {
         label: Label,
         edgeSpacing: CGFloat
     ) where Label.Option == Option {
+        
         self.label = AnySliderLabel<Option>(label: label)
         self.options = options
         self.edgeSpacing = edgeSpacing
@@ -50,13 +51,13 @@ struct SliderLabels<Option: Equatable>: View {
             ZStack {
                 Group {
                     ForEach(0 ..< options.count, id: \.self) {
-                        label.makeBody(options[$0])
+                        label.body(options[$0])
                             .position(x: centerX(for: $0), y: height / 2)
                     }
                 }
 
                 GeometryReader { proxy in
-                    label.makeBody(options.first!)
+                    label.body(options.first!)
                         .foregroundColor(.clear)
                     .onAppear {
                         height = proxy.size.height
@@ -65,7 +66,7 @@ struct SliderLabels<Option: Equatable>: View {
             }
             .fixedSize(horizontal: false, vertical: true)
         } else if let option = options.first {
-            label.makeBody(option)
+            label.body(option)
                 .frame(maxWidth: .infinity, alignment: .center)
         }
     }

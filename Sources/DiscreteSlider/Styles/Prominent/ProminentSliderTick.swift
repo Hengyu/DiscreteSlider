@@ -33,7 +33,7 @@ public struct ProminentSliderTick: SliderTickType {
         self.height = height
     }
 
-    public func makeBody() -> some View {
+    public var body: some View {
         Circle()
             .frame(width: width, height: height)
             .foregroundColor(.accentColor)

@@ -30,15 +30,15 @@ public struct AnySliderHandle: SliderHandleType {
     public let width: CGFloat
     public let height: CGFloat
 
-    private let _makeBody: () -> AnyView
+    private let _view: AnyView
 
     public init<Handle: SliderHandleType>(handle: Handle) {
         self.width = handle.width
         self.height = handle.height
-        self._makeBody = handle.makeBodyErased
+        self._view = AnyView(handle.body)
     }
 
-    public func makeBody() -> some View {
-        _makeBody()
+    public var body: some View {
+        _view
     }
 }

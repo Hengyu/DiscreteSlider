@@ -32,13 +32,13 @@ public struct DefaultSliderTrack: SliderTrackType {
         self.height = height
     }
 
-    public func makeTrack() -> some View {
+    public var body: some View {
         RoundedRectangle(cornerRadius: 2.0)
             .frame(height: height)
             .foregroundColor(.blue.opacity(0.4))
     }
 
-    public func makeFillTrack() -> some View {
+    public var fillBody: some View {
         RoundedRectangle(cornerRadius: 2.0)
             .frame(height: height)
             .foregroundColor(.blue)

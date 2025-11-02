@@ -30,15 +30,15 @@ public struct AnySliderTick: SliderTickType {
     public var width: CGFloat
     public var height: CGFloat
 
-    private let _makeBody: () -> AnyView
+    private let _body: AnyView
 
     public init<Tick: SliderTickType>(tick: Tick) {
         self.width = tick.width
         self.height = tick.height
-        self._makeBody = tick.makeBodyErased
+        _body = AnyView(tick.body)
     }
 
-    public func makeBody() -> some View {
-        _makeBody()
+    public var body: some View {
+        _body
     }
 }

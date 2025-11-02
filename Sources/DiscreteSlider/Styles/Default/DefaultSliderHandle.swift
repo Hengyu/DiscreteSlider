@@ -34,7 +34,7 @@ public struct DefaultSliderHandle: SliderHandleType {
         self.height = height
     }
 
-    public func makeBody() -> some View {
+    public var body: some View {
         Circle()
             .frame(width: width, height: height)
             .foregroundColor(.blue)

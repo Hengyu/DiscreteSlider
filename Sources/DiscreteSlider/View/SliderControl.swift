@@ -96,17 +96,17 @@ struct SliderControl<Option: Equatable>: View {
 
     public var body: some View {
         ZStack(alignment: .init(horizontal: .leading, vertical: .center)) {
-            track.makeTrack()
+            track.body
                 .frame(width: width)
 
-            track.makeFillTrack()
+            track.fillBody
                 .frame(width: handleOffset + handle.width / 2)
 
             if let tick, step != 0 {
                 create(tick: tick, with: width)
             }
 
-            handle.makeBody()
+            handle.body
                 .offset(x: handleOffset)
                 #if os(macOS) || os(iOS)
                 .gesture(
@@ -143,7 +143,7 @@ struct SliderControl<Option: Equatable>: View {
 
     private func create(tick: AnySliderTick, with width: CGFloat) -> some View {
         ForEach(0 ..< options.count, id: \.self) { element in
-            tick.makeBody()
+            tick.body
                 .offset(x: CGFloat(element) * step * (width - tick.width))
                 .onTapGesture {
                     setSelectedItem(options[element], animated: false)

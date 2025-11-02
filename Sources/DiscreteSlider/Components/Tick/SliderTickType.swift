@@ -34,18 +34,5 @@ public protocol SliderTickType {
     /// The height of the tick view.
     var height: CGFloat { get }
 
-    /// Function that creates a tick for the slider.
-    ///
-    /// - Note: Implement this method to represent the ticks that will be used in your slider.
-    /// - Returns: Configured tick view.
-    func makeBody() -> Self.Tick
-}
-
-extension SliderTickType {
-
-    /// Function used to type-erase view that represents slider's tick.
-    /// - Returns: Type-erased tick view.
-    public func makeBodyErased() -> AnyView {
-        .init(makeBody())
-    }
+    var body: Self.Tick { get }
 }

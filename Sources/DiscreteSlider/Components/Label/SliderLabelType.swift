@@ -23,21 +23,15 @@
 
 import SwiftUI
 
-/// Label to show the option.
+/// A type that defines how to display a label for a slider option.
 public protocol SliderLabelType {
     associatedtype Label: View
+    /// The type of option represented by the slider label.
     associatedtype Option
 
-    /// Function that creates a label for the slider option.
-    /// - Returns: Configured label.
-    func makeBody(_ option: Option) -> Self.Label
-}
 
-extension SliderLabelType {
-
-    /// Function used to type-erase view that represents slider option's label.
-    /// - Returns: Type-erased label.
-    public func makeBodyErased(_ option: Option) -> AnyView {
-        .init(makeBody(option))
-    }
+    /// Returns the label view for the specified option.
+    /// - Parameter option: The option rendered by the slider label.
+    /// - Returns: A view that displays the label for the specified option.
+    func body(_ option: Option) -> Self.Label
 }

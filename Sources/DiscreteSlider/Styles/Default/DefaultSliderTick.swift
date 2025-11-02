@@ -33,7 +33,7 @@ public struct DefaultSliderTick: SliderTickType {
         self.height = height
     }
 
-    public func makeBody() -> some View {
+    public var body: some View {
         Circle()
             .frame(width: width, height: height)
             .foregroundColor(.blue)

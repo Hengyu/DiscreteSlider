@@ -29,21 +29,21 @@ public struct AnySliderTrack: SliderTrackType {
 
     public let height: CGFloat
 
-    private let _makeTrack: () -> AnyView
-    private let _makeFillTrack: () -> AnyView
+    private let _view: AnyView
+    private let _fillView: AnyView
 
     public init<Track: SliderTrackType>(track: Track) {
         self.height = track.height
 
-        self._makeTrack = track.makeTrackErased
-        self._makeFillTrack = track.makeFillTrackErased
+        self._view = AnyView(track.body)
+        self._fillView = AnyView(track.fillBody)
     }
 
-    public func makeTrack() -> some View {
-        _makeTrack()
+    public var body: some View {
+        _view
     }
 
-    public func makeFillTrack() -> some View {
-        _makeFillTrack()
+    public var fillBody: some View {
+        _fillView
     }
 }

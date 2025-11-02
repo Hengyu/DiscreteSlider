@@ -33,19 +33,6 @@ public protocol SliderHandleType {
 
     /// The height of the slider's handle.
     var height: CGFloat { get }
-
-    /// Function that creates a handle of the slider.
-    ///
-    /// - Note: Implement this method to represent the handle that will be used in your slider.
-    /// - Returns: Configured handle view.
-    func makeBody() -> Self.Handle
-}
-
-extension SliderHandleType {
-
-    /// Function used to type-erase view that represents slider's handle.
-    /// - Returns: Type-erased handle view.
-    public func makeBodyErased() -> AnyView {
-        .init(makeBody())
-    }
+    
+    var body: Self.Handle { get }
 }

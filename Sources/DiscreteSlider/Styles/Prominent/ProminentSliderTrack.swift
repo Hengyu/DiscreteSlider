@@ -31,13 +31,13 @@ public struct ProminentSliderTrack: SliderTrackType {
         self.height = height
     }
 
-    public func makeTrack() -> some View {
+    public var body: some View {
         RoundedRectangle(cornerRadius: 2)
             .frame(height: height)
             .foregroundColor(.accentColor.opacity(0.5))
     }
 
-    public func makeFillTrack() -> some View {
+    public var fillBody: some View {
         RoundedRectangle(cornerRadius: 2)
             .frame(height: height)
             .foregroundColor(.accentColor.opacity(0.85))
