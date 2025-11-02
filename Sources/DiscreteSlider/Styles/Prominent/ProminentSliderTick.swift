@@ -23,7 +23,7 @@
 
 import SwiftUI
 
-public struct ProminentSliderTick: SliderTick {
+public struct ProminentSliderTick: SliderTickType {
 
     public let width: CGFloat
     public let height: CGFloat

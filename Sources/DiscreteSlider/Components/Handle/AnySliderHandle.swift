@@ -25,14 +25,14 @@
 import SwiftUI
 
 /// A type that represents any slider handle that can be used by ``DiscreteSlider``.
-public struct AnySliderHandle: SliderHandle {
+public struct AnySliderHandle: SliderHandleType {
 
     public let width: CGFloat
     public let height: CGFloat
 
     private let _makeBody: () -> AnyView
 
-    public init<Handle: SliderHandle>(handle: Handle) {
+    public init<Handle: SliderHandleType>(handle: Handle) {
         self.width = handle.width
         self.height = handle.height
         self._makeBody = handle.makeBodyErased

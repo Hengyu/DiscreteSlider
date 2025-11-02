@@ -24,13 +24,13 @@
 import SwiftUI
 
 /// A type that represents any slider label that can be used by `DiscreteSlider`.
-public struct AnySliderLabel<T>: SliderLabel {
+public struct AnySliderLabel<T>: SliderLabelType {
 
     public typealias Option = T
 
     private let _makeView: (T) -> AnyView
 
-    public init<Label: SliderLabel>(label: Label) where Label.Option == T {
+    public init<Label: SliderLabelType>(label: Label) where Label.Option == T {
         _makeView = label.makeBodyErased
     }
 

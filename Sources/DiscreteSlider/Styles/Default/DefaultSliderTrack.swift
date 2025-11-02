@@ -24,7 +24,7 @@
 
 import SwiftUI
 
-public struct DefaultSliderTrack: SliderTrack {
+public struct DefaultSliderTrack: SliderTrackType {
 
     public let height: CGFloat
 

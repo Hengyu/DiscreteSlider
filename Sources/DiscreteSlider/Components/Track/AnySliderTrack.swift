@@ -25,14 +25,14 @@
 import SwiftUI
 
 /// A type that represents any slider track that can be used by ``DiscreteSlider``.
-public struct AnySliderTrack: SliderTrack {
+public struct AnySliderTrack: SliderTrackType {
 
     public let height: CGFloat
 
     private let _makeTrack: () -> AnyView
     private let _makeFillTrack: () -> AnyView
 
-    public init<Track: SliderTrack>(track: Track) {
+    public init<Track: SliderTrackType>(track: Track) {
         self.height = track.height
 
         self._makeTrack = track.makeTrackErased

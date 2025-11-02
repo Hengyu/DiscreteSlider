@@ -23,7 +23,7 @@
 
 import SwiftUI
 
-public struct ProminentSliderHandle: SliderHandle {
+public struct ProminentSliderHandle: SliderHandleType {
 
     public let width: CGFloat
     public let height: CGFloat

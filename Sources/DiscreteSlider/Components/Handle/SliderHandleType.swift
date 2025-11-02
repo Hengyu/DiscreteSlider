@@ -25,7 +25,7 @@
 import SwiftUI
 
 /// Handle used to show user's selection and can be moved along the track.
-public protocol SliderHandle {
+public protocol SliderHandleType {
     associatedtype Handle: View
 
     /// The width of the slider's handle.
@@ -41,7 +41,7 @@ public protocol SliderHandle {
     func makeBody() -> Self.Handle
 }
 
-extension SliderHandle {
+extension SliderHandleType {
 
     /// Function used to type-erase view that represents slider's handle.
     /// - Returns: Type-erased handle view.

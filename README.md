@@ -46,7 +46,7 @@ This action will create a slider with default appearance.
 
 ### Customization
 
-Customization of a slider is not a big deal. **DiscreteSlider** provides three protocols that is used to represent the components of a slider: `SliderTrack`, `SliderTick`, `SliderHandle` and `SliderLabel`. By implementing each of the protocol you will be able to build your custom slider.
+Customization of a slider is not a big deal. **DiscreteSlider** provides three protocols that is used to represent the components of a slider: `SliderTrackType`, `SliderTickType`, `SliderHandleType` and `SliderLabelType`. By implementing each of the protocol you will be able to build your custom slider.
 
 Some examples of what you can achieve by customizing slider: 
 

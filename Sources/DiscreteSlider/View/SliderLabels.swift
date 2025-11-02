@@ -35,7 +35,7 @@ struct SliderLabels<Option: Equatable>: View {
     /// - Parameters:
     ///   - options: Options that is used as a data source for the slider.
     ///   - label: Customized slider's label.
-    public init<Label: SliderLabel>(
+    public init<Label: SliderLabelType>(
         options: [Option],
         label: Label,
         edgeSpacing: CGFloat

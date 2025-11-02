@@ -23,7 +23,7 @@
 
 import SwiftUI
 
-public struct DefaultSliderLabel<T>: SliderLabel {
+public struct DefaultSliderLabel<T>: SliderLabelType {
     public typealias Option = T
 
     public init() { }

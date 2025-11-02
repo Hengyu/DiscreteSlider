@@ -24,7 +24,7 @@
 
 import SwiftUI
 
-public struct DefaultSliderHandle: SliderHandle {
+public struct DefaultSliderHandle: SliderHandleType {
 
     public let width: CGFloat
     public let height: CGFloat

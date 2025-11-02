@@ -24,7 +24,7 @@
 import SwiftUI
 
 /// Label to show the option.
-public protocol SliderLabel {
+public protocol SliderLabelType {
     associatedtype Label: View
     associatedtype Option
 
@@ -33,7 +33,7 @@ public protocol SliderLabel {
     func makeBody(_ option: Option) -> Self.Label
 }
 
-extension SliderLabel {
+extension SliderLabelType {
 
     /// Function used to type-erase view that represents slider option's label.
     /// - Returns: Type-erased label.

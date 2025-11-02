@@ -25,14 +25,14 @@
 import SwiftUI
 
 /// A type that represents any slider tick that can be used by ``DiscreteSlider``.
-public struct AnySliderTick: SliderTick {
+public struct AnySliderTick: SliderTickType {
 
     public var width: CGFloat
     public var height: CGFloat
 
     private let _makeBody: () -> AnyView
 
-    public init<Tick: SliderTick>(tick: Tick) {
+    public init<Tick: SliderTickType>(tick: Tick) {
         self.width = tick.width
         self.height = tick.height
         self._makeBody = tick.makeBodyErased

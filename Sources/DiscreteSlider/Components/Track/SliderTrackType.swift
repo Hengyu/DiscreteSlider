@@ -24,28 +24,36 @@
 
 import SwiftUI
 
-/// Tick marks are placed along a track and represent predetermined values that the user can move the slider to.
-public protocol SliderTick {
-    associatedtype Tick: View
+/// Track shows the range that can be used by a user.
+public protocol SliderTrackType {
+    associatedtype Track: View
+    associatedtype FillTrack: View
 
-    /// The width of the tick view.
-    var width: CGFloat { get }
-
-    /// The height of the tick view.
+    /// The height of the slider's track.
     var height: CGFloat { get }
 
-    /// Function that creates a tick for the slider.
+    /// Function that builds a track for the slider.
     ///
-    /// - Note: Implement this method to represent the ticks that will be used in your slider.
-    /// - Returns: Configured tick view.
-    func makeBody() -> Self.Tick
+    /// - Note: Implement this method to create your track that will be used in the slider.
+    /// - Returns: The configured track.
+    func makeTrack() -> Self.Track
+
+    /// Function that builds a track for the filled width of the track.
+    /// - Returns: The configured fill track.
+    func makeFillTrack() -> Self.FillTrack
 }
 
-extension SliderTick {
+extension SliderTrackType {
 
-    /// Function used to type-erase view that represents slider's tick.
-    /// - Returns: Type-erased tick view.
-    public func makeBodyErased() -> AnyView {
-        .init(makeBody())
+    /// Function used to type-erase view that represents slider's track.
+    /// - Returns: Type-erased track view.
+    public func makeTrackErased() -> AnyView {
+        .init(makeTrack())
+    }
+
+    /// Function used to type-erase view that represents slider's filled width.
+    /// - Returns: Type-erased view.
+    public func makeFillTrackErased() -> AnyView {
+        .init(makeFillTrack())
     }
 }

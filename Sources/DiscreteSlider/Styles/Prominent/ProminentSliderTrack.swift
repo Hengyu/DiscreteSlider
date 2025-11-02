@@ -23,7 +23,7 @@
 
 import SwiftUI
 
-public struct ProminentSliderTrack: SliderTrack {
+public struct ProminentSliderTrack: SliderTrackType {
 
     public let height: CGFloat
 
